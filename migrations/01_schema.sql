@@ -1,3 +1,17 @@
+--  \i migrations/01_schema.sql
+
+DROP TABLE IF EXISTS
+  users;
+
+DROP TABLE IF EXISTS
+  properties;
+
+DROP TABLE IF EXISTS
+  reservations;
+
+DROP TABLE IF EXISTS
+  reviews;
+
 CREATE TABLE users (
   id SERIAL PRIMARY KEY NOT NULL,
   name VARCHAR(255) NOT NULL,
@@ -7,7 +21,7 @@ CREATE TABLE users (
 
 CREATE TABLE properties (
   id SERIAL PRIMARY KEY NOT NULL,
-  owner_id INTEGER REFERENCES user(id) ON DELETE CASCADE,
+  owner_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
   title VARCHAR(255) NOT NULL,
   description TEXT,
   thumbnail_phot_url VARCHAR(255),
@@ -29,15 +43,15 @@ CREATE TABLE reservations (
   start_date DATE,
   end_date DATE,
   property_id INTEGER REFERENCES properties(id) ON DELETE CASCADE,
-  guest_id INTEGER REFERENCES user(id) ON DELETE CASCADE
+  guest_id INTEGER REFERENCES users(id) ON DELETE CASCADE
 );
 
 
-CREATE TABLE reservations (
+CREATE TABLE reviews (
   id SERIAL PRIMARY KEY NOT NULL,
-  guest_id INTEGER REFERENCES user(id) ON DELETE CASCADE,
+  guest_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
   property_id INTEGER REFERENCES properties(id) ON DELETE CASCADE,
-  reservation_id INTEGER REFERENCES properties(id) ON DELETE CASCADE,
+  reservation_id INTEGER REFERENCES reservations(id) ON DELETE CASCADE,
   rating SMALLINT,
   message TEXT
 );
