@@ -30,7 +30,7 @@ INSERT INTO reservations (start_date, end_date, property_id, guest_id) VALUES
   ('2023-05-27', '2023-05-28', 4, 2),
   ('2023-04-23', '2023-05-02', 8, 1);
 
-INSERT INTO reviews (guest_id, property_id, reservation_id, rating, message) VALUES
+INSERT INTO property_reviews (guest_id, property_id, reservation_id, rating, message) VALUES
   (2, 5, 3, 3, 'messages'),
   (1, 4, 1, 4, 'messages'),
   (8, 1, 2, 4, 'messages'),
