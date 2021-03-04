@@ -105,9 +105,15 @@ exports.getAllReservations = getAllReservations;
  */
 const getAllProperties = function(options, limit = 10) {
   return pool.query(`
-  SELECT * FROM properties
-  LIMIT $1
-  `, [limit])
+    SELECT properties.id, title, cost_per_night, AVG(property_reviews.rating) as average_rating
+    FROM properties
+    JOIN property_reviews ON properties.id = property_reviews.property_id
+    WHERE city LIKE $1
+    GROUP BY properties.id
+    HAVING AVG(property_reviews.rating) >= 4
+    ORDER BY cost_per_night ASC
+    LIMIT $2;
+  `, [`%${options.city}%`, limit])
   .then(res => {
     res.rows
   });
